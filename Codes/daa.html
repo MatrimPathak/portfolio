@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="daa.css"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <title>Codes</title>
+    <title>DAA Lab Codes</title>
 </head>
 <body>
     <div class="bg">
@@ -24,7 +24,6 @@
                 </div>
                 <div class="answerpanel">
                     <pre class="code">
-# Adjacent Matrix
 G = [[0, 1, 0, 0, 1, 1, 1],
     [1, 0, 1, 1, 0, 0, 0],
     [0, 1, 0, 1, 0, 0, 1],
@@ -32,23 +31,18 @@ G = [[0, 1, 0, 0, 1, 1, 1],
     [0, 1, 1, 0, 1, 0, 0],
     [1, 0, 0, 0, 1, 0, 0],
     [1, 0, 1, 0, 1, 1, 0]]
-# initiate the name of node.
 node = "abcdefg"
 k_ = {}
 for i in range(len(G)):
     k_[node[i]] = i
-# count degree of all node.
 degree = []
 for i in range(len(G)):
     degree.append(sum(G[i]))
-# initiate the posible color
 colorDict = {}
 for i in range(len(G)):
     colorDict[node[i]] = ["Green", "Yellow", "Red", "Blue"]
-# sort the node depends on the degree
 sortedNode = []
 indeks = []
-# use selection sort
 for i in range(len(degree)):
     _max = 0
     j = 0
@@ -59,7 +53,6 @@ for i in range(len(degree)):
                 idx = j
     indeks.append(idx)
     sortedNode.append(node[idx])
-# The main process
 theSolution = {}
 for n in sortedNode:
     setTheColor = colorDict[n]
@@ -68,7 +61,6 @@ for n in sortedNode:
     for j in range(len(adjacentNode)):
         if adjacentNode[j] == 1 and (setTheColor[0] in colorDict[node[j]]):
             colorDict[node[j]].remove(setTheColor[0])
-# Print the solution
 for k, l in sorted(theSolution.items()):
     print("Node", k, " = ", l)
                     </pre>
@@ -88,60 +80,28 @@ for k, l in sorted(theSolution.items()):
                 </div>
                 <div class="answerpanel">
                     <pre class="code">
-# Python3 code for the above approach
-
-# function to schedule the jobs take 2
-# arguments array and no of jobs to schedule
-    
-    
 def printJobScheduling(arr, t):
-    
-    # length of array
     n = len(arr)
-    
-    # Sort all jobs according to
-    # decreasing order of profit
     for i in range(n):
         for j in range(n - 1 - i):
             if arr[j][2] < arr[j + 1][2]:
                 arr[j], arr[j + 1] = arr[j + 1], arr[j]
-    
-    # To keep track of free time slots
     result = [False] * t
-    
-    # To store result (Sequence of jobs)
     job = ['-1'] * t
-    
-    # Iterate through all given jobs
-    for i in range(len(arr)):
-    
-        # Find a free slot for this job
-        # (Note that we start from the
-        # last possible slot)
+    for i in range(len(arr)):       
         for j in range(min(t - 1, arr[i][1] - 1), -1, -1):
-    
-            # Free slot found
             if result[j] is False:
                 result[j] = True
                 job[j] = arr[i][0]
                 break
-    
-    # print the sequence
     print(job)
-    
-    
-# Driver's Code
 if __name__ == '__main__':
-    arr =    [['a', 2, 100],  # Job Array
+arr =    [['a', 2, 100],  
                 ['b', 1, 19],
                 ['c', 2, 27],
                 ['d', 1, 25],
                 ['e', 3, 15]]
-    
-    
     print("Following is maximum profit sequence of jobs")
-    
-    # Function Call
     printJobScheduling(arr, 3)                        
                     </pre>
                 </div>
@@ -161,18 +121,10 @@ if __name__ == '__main__':
                 <div class="answerpanel">
                     <pre class="code">
 import sys
-# Function to find the most efficient way to multiply
-# a given sequence of matrices
 def matrixChainMultiplication(dims):
-
-
-    n = len(dims)
-    # c[i, j] = minimum number of scalar multiplications (i.e., cost)
-    # needed to compute matrix `M[i] M[i+1] … M[j] = M[i…j]`
-    # The cost is zero when multiplying one matrix
+    n = len(dims)            
     c = [[0 for x in range(n + 1)] for y in range((n + 1))]
-    
-    for length in range(2, n + 1):  # subsequence lengths
+for length in range(2, n + 1):  
         for i in range(1, n - length + 2):
             j = i + length - 1
             c[i][j] = sys.maxsize
@@ -183,9 +135,7 @@ def matrixChainMultiplication(dims):
                     c[i][j] = cost
                 k = k + 1
     return c[1][n - 1]
-if __name__ == '__main__':
-    # Matrix `M[i]` has dimension `dims[i-1] × dims[i]` for `i=1…n`
-    # input is 3 × 8 matrix, 8 × 2 matrix, 2 × 5 matrix, 5 × 4 matrix
+if __name__ == '__main__':        
     dims = [3, 8, 2, 5, 4]
     print('The minimum cost is', matrixChainMultiplication(dims))
                     </pre>
@@ -206,34 +156,15 @@ if __name__ == '__main__':
                 <div class="answerpanel">
                     <pre class="code">
 import numpy as np
-
 def split(matrix):
-    """
-    Splits a given matrix into quarters.
-    Input: nxn matrix
-    Output: tuple containing 4 n/2 x n/2 matrices corresponding to a, b, c, d
-    """
     row, col = matrix.shape
     row2, col2 = row//2, col//2
     return matrix[:row2, :col2], matrix[:row2, col2:], matrix[row2:, :col2], matrix[row2:, col2:]
-    
 def strassen(x, y):
-    """
-    Computes matrix product by divide and conquer approach, recursively.
-    Input: nxn matrices x and y
-    Output: nxn matrix, product of x and y
-    """
-    
-    # Base case when size of matrices is 1x1
     if len(x) == 1:
         return x * y
-    
-    # Splitting the matrices into quadrants. This will be done recursively
-    # until the base case is reached.
     a, b, c, d = split(x)
     e, f, g, h = split(y)
-    
-    # Computing the 7 products, recursively (p1, p2...p7)
     p1 = strassen(a, f - h)  
     p2 = strassen(a + b, h)        
     p3 = strassen(c + d, e)        
@@ -241,16 +172,11 @@ def strassen(x, y):
     p5 = strassen(a + d, e + h)        
     p6 = strassen(b - d, g + h)  
     p7 = strassen(a - c, e + f)  
-    
-    # Computing the values of the 4 quadrants of the final matrix c
     c11 = p5 + p4 - p2 + p6  
     c12 = p1 + p2           
     c21 = p3 + p4            
     c22 = p1 + p5 - p3 - p7  
-    
-    # Combining the 4 quadrants into a single matrix by stacking horizontally and vertically.
-    c = np.vstack((np.hstack((c11, c12)), np.hstack((c21, c22)))) 
-    
+    c = np.vstack((np.hstack((c11, c12)), np.hstack((c21, c22))))
     return c                        
                     </pre>
                 </div>
@@ -269,19 +195,11 @@ def strassen(x, y):
                 </div>
                 <div class="answerpanel">
                     <pre class="code">
- import sys
-# Function to find the most efficient way to multiply
-# a given sequence of matrices
+import sys
 def matrixChainMultiplication(dims):
-
-
-    n = len(dims)
-    # c[i, j] = minimum number of scalar multiplications (i.e., cost)
-    # needed to compute matrix `M[i] M[i+1] … M[j] = M[i…j]`
-    # The cost is zero when multiplying one matrix
+    n = len(dims)            
     c = [[0 for x in range(n + 1)] for y in range((n + 1))]
-    
-    for length in range(2, n + 1):  # subsequence lengths
+for length in range(2, n + 1):  
         for i in range(1, n - length + 2):
             j = i + length - 1
             c[i][j] = sys.maxsize
@@ -292,9 +210,7 @@ def matrixChainMultiplication(dims):
                     c[i][j] = cost
                 k = k + 1
     return c[1][n - 1]
-if __name__ == '__main__':
-    # Matrix `M[i]` has dimension `dims[i-1] × dims[i]` for `i=1…n`
-    # input is 3 × 8 matrix, 8 × 2 matrix, 2 × 5 matrix, 5 × 4 matrix
+if __name__ == '__main__':        
     dims = [3, 8, 2, 5, 4]
     print('The minimum cost is', matrixChainMultiplication(dims))
                     </pre>
@@ -314,16 +230,11 @@ if __name__ == '__main__':
                 </div>
                 <div class="answerpanel">
                     <pre class="code">
-# Dynamic Programming implementation of LCS problem
 
-def lcs(X, Y):
-    # find the length of the strings
+def lcs(X, Y):    
     m = len(X)
     n = len(Y)
-    
-    # declaring the array for storing the dp values
     L = [[None]*(n + 1) for i in range(m + 1)]
-    
     """Following steps build L[m + 1][n + 1] in bottom up fashion
     Note: L[i][j] contains length of LCS of X[0..i-1]
     and Y[0..j-1]"""
@@ -335,13 +246,7 @@ def lcs(X, Y):
                 L[i][j] = L[i-1][j-1]+1
             else:
                 L[i][j] = max(L[i-1][j], L[i][j-1])
-    
-    # L[m][n] contains the length of LCS of X[0..n-1] & Y[0..m-1]
     return L[m][n]
-# end of function lcs
-    
-    
-# Driver program to test the above function
 X = "AGGTAB"
 Y = "GXTXAYB"
 print("Length of LCS is ", lcs(X, Y))                        
@@ -362,14 +267,8 @@ print("Length of LCS is ", lcs(X, Y))
                 </div>
                 <div class="answerpanel">
                     <pre class="code">
-# A Dynamic Programming based Python
-# Program for 0-1 Knapsack problem
-# Returns the maximum value that can
-# be put in a knapsack of capacity W
 def knapSack(W, wt, val, n):
 	K = [[0 for x in range(W + 1)] for x in range(n + 1)]
-
-	# Build table K[][] in bottom up manner
 	for i in range(n + 1):
 		for w in range(W + 1):
 			if i == 0 or w == 0:
@@ -378,10 +277,7 @@ def knapSack(W, wt, val, n):
 				K[i][w] = max(val[i-1] + K[i-1][w-wt[i-1]], K[i-1][w])
 			else:
 				K[i][w] = K[i-1][w]
-
 	return K[n][W]
-
-# Driver program to test above function
 val = [60, 100, 120]
 wt = [10, 20, 30]
 W = 50
@@ -404,94 +300,45 @@ print(knapSack(W, wt, val, n))
                 </div>
                 <div class="answerpanel">
                     <pre class="code">
-# Python program to solve N Queen
-# Problem using backtracking
     
 global N
 N = 4
-    
 def printSolution(board):
     for i in range(N):
         for j in range(N):
             print (board[i][j],end=' ')
         print()
-    
-    
-# A utility function to check if a queen can
-# be placed on board[row][col]. Note that this
-# function is called when "col" queens are
-# already placed in columns from 0 to col -1.
-# So we need to check only left side for
-# attacking queens
 def isSafe(board, row, col):
-    
-    # Check this row on left side
     for i in range(col):
         if board[row][i] == 1:
             return False
-    
-    # Check upper diagonal on left side
     for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
         if board[i][j] == 1:
             return False
-    
-    # Check lower diagonal on left side
     for i, j in zip(range(row, N, 1), range(col, -1, -1)):
         if board[i][j] == 1:
             return False
-    
     return True
-    
-def solveNQUtil(board, col):
-    # base case: If all queens are placed
-    # then return true
+def solveNQUtil(board, col):        
     if col >= N:
         return True
-    
-    # Consider this column and try placing
-    # this queen in all rows one by one
     for i in range(N):
-    
-        if isSafe(board, i, col):
-            # Place this queen in board[i][col]
+        if isSafe(board, i, col):            
             board[i][col] = 1
-    
-            # recur to place rest of the queens
             if solveNQUtil(board, col + 1) == True:
-                return True
-    
-            # If placing queen in board[i][col
-            # doesn't lead to a solution, then
-            # queen from board[i][col]
+                return True                      
             board[i][col] = 0
-    
-    # if the queen can not be placed in any row in
-    # this column col  then return false
     return False
-    
-# This function solves the N Queen problem using
-# Backtracking. It mainly uses solveNQUtil() to
-# solve the problem. It returns false if queens
-# cannot be placed, otherwise return true and
-# placement of queens in the form of 1s.
-# note that there may be more than one
-# solutions, this function prints one  of the
-# feasible solutions.
 def solveNQ():
     board = [ [0, 0, 0, 0],
                 [0, 0, 0, 0],
                 [0, 0, 0, 0],
-                [0, 0, 0, 0]
-                ]
-    
+                [0, 0, 0, 0] ]
     if solveNQUtil(board, 0) == False:
         print ("Solution does not exist")
         return False
-    
     printSolution(board)
     return True
-    
-# driver program to test above function
 solveNQ()                        
                     </pre>
                 </div>
@@ -510,56 +357,32 @@ solveNQ()
                 </div>
                 <div class="answerpanel">
                     <pre class="code">
-# Function to print the subsets whose
-# sum is equal to the given target S
 
 def sumSubsets(sets, n, target):
-
-
-    # Create the new array with size;equal to array set[] to creates
     x = [0]*len(sets)
     j = len(sets) - 1
-    
-    # Convert the array into binary array
     while (n > 0):
         x[j] = n % 2
         n = n // 2
         j -= 1
     sum = 0
-    
-    # Calculate the sum of this subset
-    
     for i in range(len(sets)):
         if (x[i] == 1):
-            sum += sets[i]
-    # Check whether sum is equal to target.if it is equal, then print the subset
-    
+            sum += sets[i]    
     if (sum == target):
         print("{", end="")
-        
         for i in range(len(sets)):
             if (x[i] == 1):
                 print(sets[i], end=", ")
         print("}, ", end="")
-
-# Function to find the subsets with sum K
-
-
 def findSubsets(X, S):
-    
-    # Calculate the total no. of subsets
     x = pow(2, len(X))
-    
-    # Run loop till total no. of subsets and call the function for each subset
     for i in range(1, x):
         sumSubsets(X, i, S)
-# Driver code
 if __name__ == "__main__":
-    
     X = [5, 10, 12, 13, 15, 18]
     S = 30
     print("Subsets are:")
-    
     findSubsets(X, S)
                     </pre>
                 </div>
@@ -578,7 +401,6 @@ if __name__ == "__main__":
                 </div>
                 <div class="answerpanel">
                     <pre class="code">
-# Adjacent Matrix
 G = [[0, 1, 0, 0, 1, 1, 1],
     [1, 0, 1, 1, 0, 0, 0],
     [0, 1, 0, 1, 0, 0, 1],
@@ -586,23 +408,18 @@ G = [[0, 1, 0, 0, 1, 1, 1],
     [0, 1, 1, 0, 1, 0, 0],
     [1, 0, 0, 0, 1, 0, 0],
     [1, 0, 1, 0, 1, 1, 0]]
-# initiate the name of node.
 node = "abcdefg"
 k_ = {}
 for i in range(len(G)):
     k_[node[i]] = i
-# count degree of all node.
 degree = []
 for i in range(len(G)):
     degree.append(sum(G[i]))
-# initiate the posible color
 colorDict = {}
 for i in range(len(G)):
     colorDict[node[i]] = ["Green", "Yellow", "Red", "Blue"]
-# sort the node depends on the degree
 sortedNode = []
 indeks = []
-# use selection sort
 for i in range(len(degree)):
     _max = 0
     j = 0
@@ -613,7 +430,6 @@ for i in range(len(degree)):
                 idx = j
     indeks.append(idx)
     sortedNode.append(node[idx])
-# The main process
 theSolution = {}
 for n in sortedNode:
     setTheColor = colorDict[n]
@@ -622,7 +438,6 @@ for n in sortedNode:
     for j in range(len(adjacentNode)):
         if adjacentNode[j] == 1 and (setTheColor[0] in colorDict[node[j]]):
             colorDict[node[j]].remove(setTheColor[0])
-# Print the solution
 for k, l in sorted(theSolution.items()):
     print("Node", k, " = ", l)
                     </pre>
@@ -642,39 +457,24 @@ for k, l in sorted(theSolution.items()):
                 </div>
                 <div class="answerpanel">
                     <pre class="code">
-# Python3 program for Naive Pattern
-# Searching algorithm
   
   
 def search(pat, txt):
     M = len(pat)
     N = len(txt)
-  
-    # A loop to slide pat[] one by one */
     for i in range(N - M + 1):
         j = 0
-  
-        # For current index i, check
-        # for pattern match */
         while(j < M):
             if (txt[i + j] != pat[j]):
                 break
             j += 1
-  
         if (j == M):
             print("Pattern found at index ", i)
-  
-  
-# Driver's Code
 if __name__ == '__main__':
     txt = "AABAACAADAABAAABAA"
     pat = "AABA"
-      
-    # Function call
     search(pat, txt)
   
-# This code is contributed
-# by PrinciRaj1992
                     </pre>
                 </div>
             </div>
@@ -692,11 +492,9 @@ if __name__ == '__main__':
                 </div>
                 <div class="answerpanel">
                     <pre class="code">
-# Rabin-Karp algorithm in python
 
 d = 10
 def search(pattern, text, q):
-
     m = len(pattern)
     n = len(text)
     p = 0
@@ -704,16 +502,11 @@ def search(pattern, text, q):
     h = 1
     i = 0
     j = 0
-    
     for i in range(m-1):
         h = (h*d) % q
-        
-    # Calculate hash value for pattern and text
     for i in range(m):
         p = (d*p + ord(pattern[i])) % q
         t = (d*t + ord(text[i])) % q
-    
-    # Find the match
     for i in range(n-m+1):
         if p == t:
             for j in range(m):
@@ -727,7 +520,6 @@ def search(pattern, text, q):
             
             if t < 0:
                 t = t+q
-                
 text = "ABABDABAABABCABABCDABABCABABCABABBBCABABCABAB"
 pattern = "TAR"
 q = 10
@@ -750,34 +542,25 @@ search(pattern, text, q)
                 <div class="answerpanel">
                     <pre class="code">
 def KMP_String(pattern, text):
-
 a = len(text)
 b = len(pattern)
 prefix_arr = get_prefix_arr(pattern, b)
-
 initial_point = []
 m = 0
 n = 0
-
 while m != a:
-    
     if text[m] == pattern[n]:
         m += 1
         n += 1
-        
     else:
         n = prefix_arr[n-1]
-        
     if n == b:
         initial_point.append(m-n)
         n = prefix_arr[n-1]
     elif n == 0:
         m += 1
-        
 return initial_point
-
 def get_prefix_arr(pattern, b):
-
 prefix_arr = [0] * b
 n = 0
 m = 1
@@ -792,7 +575,6 @@ while m != b:
         prefix_arr[m] = 0
         m += 1
 return prefix_arr
-
 string = "ABABDABAABABCABABCDABABCABABCABABBBCABABCABAB"
 pat = "ABABCABAB"
 initial_index = KMP_String(pat, string)
