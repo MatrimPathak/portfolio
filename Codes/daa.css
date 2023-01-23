@@ -56,9 +56,6 @@ body::-webkit-scrollbar
 }
 @media only screen and (max-width: 1000px)
 {
-    body{
-        overflow: hidden;
-    }
     .panel
     {
         width: calc(100% - 60px);
