@@ -102,6 +102,13 @@ body::-webkit-scrollbar
     overflow-x: scroll;
 }
 
+.answerpanel pre::-webkit-scrollbar
+{
+    display: none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
 .questionpanel span{
     display: block;
     cursor: pointer;
